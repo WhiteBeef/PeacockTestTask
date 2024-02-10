@@ -21,6 +21,7 @@ import java.util.zip.GZIPInputStream;
 public class PeacockTestTask {
 
     public static void main(String[] args) {
+        long startTime = System.currentTimeMillis();
         BufferedReader reader = null;
         FileReader fileReader = null;
         InputStreamReader inputStreamReader = null;
@@ -51,8 +52,8 @@ public class PeacockTestTask {
             String line;
             int lineIndex = 0;
             while ((line = reader.readLine()) != null) {
-                if(!line.matches("^(\"[0-9]*\";)*(\"[0-9]*\")")){
-                    System.out.println("Строка '"+ line +"' является некорректной. Пропускаю..");
+                if (!line.matches("^(\"[0-9]*\";)*(\"[0-9]*\")")) {
+                    System.out.println("Строка '" + line + "' является некорректной. Пропускаю..");
                     continue;
                 }
                 strings.add(line);
@@ -142,5 +143,6 @@ public class PeacockTestTask {
             }
         }
         System.out.println("Успех!");
+        System.out.println("Время выполнения: " + (System.currentTimeMillis() - startTime) + "ms");
     }
 }
