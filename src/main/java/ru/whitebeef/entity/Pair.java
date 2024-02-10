@@ -3,6 +3,7 @@ package ru.whitebeef.entity;
 import java.util.Objects;
 
 public record Pair<L, R>(L left, R right) {
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

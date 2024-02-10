@@ -51,6 +51,10 @@ public class PeacockTestTask {
             String line;
             int lineIndex = 0;
             while ((line = reader.readLine()) != null) {
+                if(!line.matches("^(\"[0-9]*\";)*(\"[0-9]*\")")){
+                    System.out.println("Строка '"+ line +"' является некорректной. Пропускаю..");
+                    continue;
+                }
                 strings.add(line);
                 String[] stringArr = line.split(";");
                 Group group = null;
