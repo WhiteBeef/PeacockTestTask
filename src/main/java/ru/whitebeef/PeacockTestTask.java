@@ -103,7 +103,7 @@ public class PeacockTestTask {
                         group = parent;
                     }
 
-                    if (parent.getLineIndexes().size() > 1) {
+                    if (parent.getLineIndexes() != null && parent.getLineIndexes().size() > 1) {
                         outputGroups.add(parent);
                     }
                 }

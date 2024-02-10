@@ -8,7 +8,7 @@ import java.util.TreeSet;
 public class Group {
 
     private Group parent = null;
-    private final Set<Long> numbers = new HashSet<>();
+    private Set<Long> numbers = new HashSet<>();
     private Set<Integer> lineIndexes = null;
 
     public Group(Long value) {
@@ -41,15 +41,15 @@ public class Group {
         if (getSize() > group.getSize()) {
             numbers.addAll(group.numbers);
             lineIndexes.addAll(group.lineIndexes);
-            group.numbers.clear();
-            group.lineIndexes.clear();
+            group.numbers = null;
+            group.lineIndexes = null;
             group.parent = this;
             return this;
         } else {
             group.numbers.addAll(numbers);
             group.lineIndexes.addAll(lineIndexes);
-            numbers.clear();
-            lineIndexes.clear();
+            numbers = null;
+            lineIndexes = null;
             parent = group;
             return group;
         }
