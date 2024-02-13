@@ -5,50 +5,50 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class Group {
+public class Group<V> {
 
-    private Group parent = null;
-    private Set<Long> numbers = new HashSet<>();
+    private Group<V> parent = null;
+    private Set<V> values = new HashSet<>();
     private Set<Integer> lineIndexes = null;
 
-    public Group(Long value) {
-        numbers.add(value);
+    public Group(V value) {
+        values.add(value);
     }
 
-    public void addNumber(Long number) {
-        numbers.add(number);
+    public void addValue(V value) {
+        values.add(value);
     }
 
-    public boolean isInGroup(Long value) {
-        return numbers.contains(value);
+    public boolean isInGroup(V value) {
+        return values.contains(value);
     }
 
     public int getSize() {
-        return numbers.size();
+        return values.size();
     }
 
-    public Group getParent() {
+    public Group<V> getParent() {
         return parent;
     }
 
-    public Group unionGroup(Group group) {
+    public Group<V> unionGroup(Group<V> group) {
         if (group == this) {
             return this;
         }
-        if (group.getParent() != null) {
-            return unionGroup(group.getParent());
+        while (group.getParent() != null) {
+            group = group.getParent();
         }
         if (getSize() > group.getSize()) {
-            numbers.addAll(group.numbers);
+            values.addAll(group.values);
             lineIndexes.addAll(group.lineIndexes);
-            group.numbers = null;
+            group.values = null;
             group.lineIndexes = null;
             group.parent = this;
             return this;
         } else {
-            group.numbers.addAll(numbers);
+            group.values.addAll(values);
             group.lineIndexes.addAll(lineIndexes);
-            numbers = null;
+            values = null;
             lineIndexes = null;
             parent = group;
             return group;
@@ -81,19 +81,19 @@ public class Group {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Group group = (Group) o;
-        return Objects.equals(parent, group.parent) && Objects.equals(numbers, group.numbers) && Objects.equals(lineIndexes, group.lineIndexes);
+        Group<?> group = (Group<?>) o;
+        return Objects.equals(parent, group.parent) && Objects.equals(values, group.values) && Objects.equals(lineIndexes, group.lineIndexes);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(parent, numbers, lineIndexes);
+        return Objects.hash(parent, values, lineIndexes);
     }
 
     @Override
     public String toString() {
         return "Group{" +
-                ", numbers=" + numbers +
+                ", numbers=" + values +
                 ", lineIndexes=" + lineIndexes +
                 '}';
     }
