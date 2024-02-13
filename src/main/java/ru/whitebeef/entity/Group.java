@@ -8,19 +8,23 @@ import java.util.TreeSet;
 public class Group<V> {
 
     private Group<V> parent = null;
-    private Set<V> values = new HashSet<>();
+    private Set<Pair<V, Integer>> values = new HashSet<>();
     private Set<Integer> lineIndexes = null;
 
-    public Group(V value) {
+    public Group(Pair<V, Integer> value) {
         values.add(value);
     }
 
-    public void addValue(V value) {
+    public void addValue(Pair<V, Integer> value) {
         values.add(value);
     }
 
-    public boolean isInGroup(V value) {
+    public boolean isInGroup(Pair<V, Integer> value) {
         return values.contains(value);
+    }
+
+    public Set<Pair<V, Integer>> getValues() {
+        return values;
     }
 
     public int getSize() {

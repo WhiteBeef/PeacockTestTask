@@ -53,7 +53,6 @@ public class PeacockTestTask {
             int lineIndex = 0;
             while ((line = reader.readLine()) != null) {
                 if (!line.matches("^(\"[^\"^;]*\";)*(\"[^\"^;]*\")")) {
-                    //  System.out.println("Строка '" + line + "' является некорректной. Пропускаю..");
                     continue;
                 }
                 strings.add(line);
@@ -65,48 +64,34 @@ public class PeacockTestTask {
                     if (value.isEmpty()) {
                         continue;
                     }
-
                     Pair<String, Integer> pair = new Pair<>(value, i);
 
                     if (group == null) {
                         if (map.containsKey(pair)) {
                             group = map.get(pair);
-                            group.addValue(value);
+                            group.addValue(pair);
                             group.addLineIndex(lineIndex);
                         } else {
-                            group = new Group<>(value);
+                            group = new Group<>(pair);
                             group.addLineIndex(lineIndex);
                             map.put(pair, group);
                         }
                     } else {
                         if (map.containsKey(pair)) {
                             group = group.unionGroup(map.get(pair));
-                            group.addValue(value);
-                            group.addLineIndex(lineIndex);
-                            map.put(pair, group);
-                        } else {
-                            group.addValue(value);
-                            group.addLineIndex(lineIndex);
-                            map.put(pair, group);
+                            for (Pair<String, Integer> pair1 : group.getValues()) {
+                                map.put(pair1, group);
+                            }
                         }
+                        group.addValue(pair);
+                        group.addLineIndex(lineIndex);
+                        map.put(pair, group);
                     }
                 }
                 lineIndex++;
             }
             try (FileWriter writer = new FileWriter("output.txt")) {
-                Set<Group<String>> outputGroups = new HashSet<>();
-                for (var entry : map.entrySet()) {
-                    Group<String> group = entry.getValue();
-                    Group<String> parent = group;
-                    while (!(group.getParent() != null || group.getParent() != group)) {
-                        parent = group.getParent();
-                        group = parent;
-                    }
-
-                    if (parent.getLineIndexes() != null && parent.getLineIndexes().size() > 1) {
-                        outputGroups.add(parent);
-                    }
-                }
+                Set<Group<String>> outputGroups = getOutputGroups(map);
 
                 int groupNumber = 1;
                 writer.write("Количество групп: " + outputGroups.size() + "\n");
@@ -142,5 +127,22 @@ public class PeacockTestTask {
         }
         System.out.println("Успех!");
         System.out.println("Время выполнения: " + (System.currentTimeMillis() - startTime) + "ms");
+    }
+
+    private static Set<Group<String>> getOutputGroups(Map<Pair<String, Integer>, Group<String>> map) {
+        Set<Group<String>> outputGroups = new HashSet<>();
+        for (var entry : map.entrySet()) {
+            Group<String> group = entry.getValue();
+            Group<String> parent = group;
+            while (!(group.getParent() != null || group.getParent() != group)) {
+                parent = group.getParent();
+                group = parent;
+            }
+
+            if (parent.getLineIndexes() != null && parent.getLineIndexes().size() > 1) {
+                outputGroups.add(parent);
+            }
+        }
+        return outputGroups;
     }
 }
