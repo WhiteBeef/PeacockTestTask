@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.zip.GZIPInputStream;
 
-public class PeacockTestTask {
+public class SolutionWithClassGroup {
 
     public static void main(String[] args) {
         long startTime = System.currentTimeMillis();
@@ -52,7 +52,7 @@ public class PeacockTestTask {
             String line;
             int lineIndex = 0;
             while ((line = reader.readLine()) != null) {
-                if (!line.matches("^(\"[^\"^;]*\";)*(\"[^\"^;]*\")")) {
+                if (!line.matches("^(\"[^\"^;]*\";)*(\"[^\"^;]*\";?)")) {
                     continue;
                 }
                 strings.add(line);
@@ -125,7 +125,6 @@ public class PeacockTestTask {
                 System.out.println("Произошла непредвиденная ошибка при закрытии файлов " + e.getMessage());
             }
         }
-        System.out.println("Успех!");
         System.out.println("Время выполнения: " + (System.currentTimeMillis() - startTime) + "ms");
     }
 

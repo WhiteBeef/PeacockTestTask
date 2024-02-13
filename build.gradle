@@ -29,7 +29,7 @@ test {
 jar {
     manifest {
         attributes(
-                'Main-Class': 'ru.whitebeef.PeacockTestTask'
+                'Main-Class': 'ru.whitebeef.SolutionWithoutClassGroup'
         )
     }
 }
