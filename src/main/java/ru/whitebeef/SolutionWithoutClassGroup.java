@@ -4,6 +4,8 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.function.Predicate;
+import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
 
 public class SolutionWithoutClassGroup {
@@ -95,8 +97,9 @@ public class SolutionWithoutClassGroup {
             }
 
             String line;
+            Predicate<String> regex = Pattern.compile("^(\"[^\"^;]*\";)*(\"[^\"^;]*\");?").asMatchPredicate();
             while ((line = reader.readLine()) != null) {
-                if (!line.matches("^(\"[^\"^;]*\";)*(\"[^\"^;]*\");?")) {
+                if (!regex.test(line)) {
                     continue;
                 }
                 lines.add(line);
