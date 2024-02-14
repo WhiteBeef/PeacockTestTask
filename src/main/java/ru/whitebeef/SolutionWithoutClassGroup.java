@@ -131,7 +131,6 @@ public class SolutionWithoutClassGroup {
     private static void writeToFile(String[] args) {
         Path filePath = Path.of(args[0]);
         try (FileWriter writer = new FileWriter(filePath.getParent().toAbsolutePath() + "\\output.txt")) {
-            System.out.println(filePath.getParent().toAbsolutePath() + "output.txt");
             List<Set<Integer>> output = new ArrayList<>();
 
             for (int group : lineIndexes.keySet()) {
