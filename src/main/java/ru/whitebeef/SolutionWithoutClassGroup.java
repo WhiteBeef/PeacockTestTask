@@ -13,23 +13,16 @@ public class SolutionWithoutClassGroup {
     private static final Map<Integer, Integer> parents = new HashMap<>();
 
     public static void main(String[] args) {
-        Runtime runtime = Runtime.getRuntime();
-
         long startTime = System.currentTimeMillis();
 
         if (!readFile(args)) {
             return;
         }
         System.gc();
-        long usedMemory = runtime.totalMemory() - runtime.freeMemory();
-        System.out.println("(Файл прочитан) Потребление памяти: " + usedMemory / (1024.0 * 1024.0));
         int groupIndex = 0;
         for (int lineIndex = 0; lineIndex < lines.size(); lineIndex++) {
             String[] stringArr = lines.get(lineIndex).split(";");
             int group = -1;
-            if (lineIndex % 100000 == 0) {
-                System.out.println(lineIndex);
-            }
             for (int i = 0; i < stringArr.length; i++) {
                 String value = stringArr[i];
                 if (value.length() == 2) {
@@ -73,12 +66,7 @@ public class SolutionWithoutClassGroup {
                 }
             }
         }
-        usedMemory = runtime.totalMemory() - runtime.freeMemory();
-        System.out.println("Потребление памяти: " + usedMemory / (1024.0 * 1024.0));
         writeToFile(args);
-
-        usedMemory = runtime.totalMemory() - runtime.freeMemory();
-        System.out.println("Потребление памяти: " + usedMemory / (1024.0 * 1024.0));
         System.out.println("Время выполнения: " + (System.currentTimeMillis() - startTime) + "ms");
     }
 
@@ -139,7 +127,8 @@ public class SolutionWithoutClassGroup {
 
     private static void writeToFile(String[] args) {
         Path filePath = Path.of(args[0]);
-        try (FileWriter writer = new FileWriter(filePath.getParent().toAbsolutePath() + "output.txt")) {
+        try (FileWriter writer = new FileWriter(filePath.getParent().toAbsolutePath() + "\\output.txt")) {
+            System.out.println(filePath.getParent().toAbsolutePath() + "output.txt");
             List<Set<Integer>> output = new ArrayList<>();
 
             for (int group : lineIndexes.keySet()) {
@@ -152,8 +141,6 @@ public class SolutionWithoutClassGroup {
                     }
                 }
             }
-
-
             int groupNumber = 1;
             writer.write("Количество групп: " + output.size() + "\n");
             System.out.println("Количество групп: " + output.size());
